@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import MainChild from '../routes/MainChild';
 import axios from 'axios';
 
+//클래스형 컴포넌트
 class Main extends Component {
 
     constructor(props) {
@@ -42,12 +43,19 @@ class Main extends Component {
     }
 
     axiosClick = () => {
-        axios.get('api/main').then(res => {
-            console.log(res);
-            this.setState({
-                axiosData : res.data
-            });
-        })
+        //front(화면)-back(서버)간 데이터 전달
+        //[step1] axios로 서버의 url을 호출 - 서버와의 통신 관련 proxy 설정은 setupProxy.js에 존재함
+        axios
+            .get('api/main')
+            .then(res => { //[step5] 데이터 리턴 - 통신 성공, res에 서버에서의 리턴값 담겨있음
+                console.log(res); //디버깅 등으로 res의 데이터 구조 파악
+                this.setState({ // 데이터 세팅, 클래스형 컴포넌트에서는 setState 를 사용
+                    axiosData : res.data.data
+                });
+            })
+            .catch({ //[step5] 데이터 리턴 - 통신 실패
+                //에러
+            })
     }
 
     render() {
