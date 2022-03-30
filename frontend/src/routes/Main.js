@@ -1,5 +1,6 @@
 import React, {Component} from "react";
 import MainChild from '../routes/MainChild';
+import axios from 'axios';
 
 class Main extends Component {
 
@@ -7,7 +8,8 @@ class Main extends Component {
         super(props);
         this.state = {
             data1 : [2,2,3],
-            visibleChild : false
+            visibleChild : false,
+            axiosData : '',
         }
     }
 
@@ -39,6 +41,15 @@ class Main extends Component {
         }
     }
 
+    axiosClick = () => {
+        axios.get('api/main').then(res => {
+            console.log(res);
+            this.setState({
+                axiosData : res.data
+            });
+        })
+    }
+
     render() {
         return (
             <>
@@ -46,7 +57,10 @@ class Main extends Component {
                 <button onClick={this.mainClick}>Main컴포넌트 클릭</button>
                 <button onClick={this.setData}>Main data1값변경</button>
                 <button onClick={this.alertClick}>Main data1값확인</button>
+                <button onClick={this.axiosClick}>Server axios 호출</button>
                 <>{this.state.visibleChild == false && <button onClick={this.setChildVisble}>child 컴포넌트 출현</button>}</>
+
+                <div>{this.state.axiosData} : axiosData노출</div>
 
             {this.state.visibleChild &&
                 <>
